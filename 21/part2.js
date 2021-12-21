@@ -14,6 +14,18 @@ function sumArrays(arr1, arr2) {
   return [arr1[0] + arr2[0], arr1[1] + arr2[1]];
 }
 
+let possibleRolls = (function generateRolls() {
+  let acc = [];
+  for (let d1 = 1; d1 <= 3; ++d1) {
+    for (let d2 = 1; d2 <= 3; ++d2) {
+      for (let d3 = 1; d3 <= 3; ++d3) {
+        acc.push(d1 + d2 + d3);
+      }
+    }
+  }
+  return acc;
+})();
+
 const multiverse = {};
 
 class Universe {
@@ -46,28 +58,29 @@ class Universe {
 
     let wins = [0, 0];
 
-    for (let d1 = 1; d1 <= 3; ++d1) {
-      for (let d2 = 1; d2 <= 3; ++d2) {
-        for (let d3 = 1; d3 <= 3; ++d3) {
-          const uniA = this.split();
-          if (uniA.simulateStep(0, d1 + d2 + d3)) {
-            wins[0]++;
+    for (let i = 0; i < possibleRolls.length; i++) {
+      const roll = possibleRolls[i];
+
+      const uniA = this.split();
+      if (uniA.simulateStep(0, roll)) {
+        wins[0]++;
+
+      } else {
+        for (let i = 0; i < possibleRolls.length; i++) {
+          const roll = possibleRolls[i];
+
+          const uniB = uniA.split();
+          if (uniB.simulateStep(1, roll)) {
+            wins[1]++;
+
           } else {
-            for (let d1 = 1; d1 <= 3; ++d1) {
-              for (let d2 = 1; d2 <= 3; ++d2) {
-                for (let d3 = 1; d3 <= 3; ++d3) {
-                  const uniB = uniA.split();
-                  if (uniB.simulateStep(1, d1 + d2 + d3)) {
-                    wins[1]++;
-                  } else {
-                    wins = sumArrays(wins, uniB.simulate());
-                  }
-                }
-              }
-            }
+            wins = sumArrays(wins, uniB.simulate());
+
           }
+
         }
       }
+
     }
 
     multiverse[h] = wins;
@@ -85,4 +98,4 @@ let betterPlayer = 0;
 if (wins[1] > wins[0])
   betterPlayer = 1;
 
-console.log(`Betterplayer is player ${betterPlayer + 1}, whose wins in ${wins[betterPlayer]} universes`);
+console.log(wins[betterPlayer]);
