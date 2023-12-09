@@ -1,10 +1,12 @@
 {
-  "name": "05",
+  "name": "08",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start1": "node src/run.js part1",
+    "start2": "node src/run.js part2",
     "test": "ava"
   },
   "keywords": [],
