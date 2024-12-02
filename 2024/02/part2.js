@@ -22,8 +22,8 @@ function* with_holes(numbers) {
 function is_report_safe(numbers) {
   let is_growing = null;
   let ok = true;
-  for (let i = 1; i < numbers.length; ++i) {
-    const diff = numbers[i] - numbers[i - 1];
+  for (let [x, y] of pairs(numbers)) {
+    const diff = y - x;
 
     if (diff === 0 || Math.abs(diff) > 3) {
       ok = false;
@@ -57,7 +57,7 @@ function dododo(data) {
   for (let line of nums) {
     let ok = false;
     for (let variant of with_holes(line)) {
-      if (is_report_safe(variant)){
+      if (is_report_safe(variant)) {
         ok = true;
         break;
       }
